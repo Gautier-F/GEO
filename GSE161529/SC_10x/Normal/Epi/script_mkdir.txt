@@ -1,0 +1,44 @@
+tar -xvf GSE...._RAW.tar -C SC_10x
+
+mv *_N* Normal
+
+mv *-Total-* Total
+
+for x in $(find ./ -name "GSM49092*")
+	do echo $x | sed "s/_N.*//g" >> dir_name.txt
+done
+
+sort dir_name.txt | uniq >> dir_name_uniq.txt
+
+for x in $(cat dir_name_uniq.txt)
+	do mkdir $x
+done
+
+rm {dir_name.txt,dir_name_uniq.txt}
+
+find ./ -type d >> d_n.txt
+
+sed -i 1d  d_n.txt
+sed -i 's/\.\///g' d_n.txt
+
+for n in $(cat d_n.txt)
+	do find ./ -type f -name "$n*" | xargs -I {} mv {} "$n"
+done
+
+
+
+
+
+
+
+
+// get the last character from cat file
+
+cat d_n.txt | sed -e "s/^.*\(.\)$/\1/"
+
+// *.$ matches the entire line, 
+//provided that at least 1 characters exist. 
+//And the entire line is replaced with \1. \1 is the first saved field. 
+//A saved field is stuff between \( and \).
+
+
